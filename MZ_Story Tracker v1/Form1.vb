@@ -6,6 +6,10 @@ Public Class Form1
     Private logPath As String = "C:\MZ_Story Tracker\Data\errorlog.txt"
     Private settingsPath As String = "C:\MZ_Story Tracker\settings.xml"
 
+    ''' <summary>
+    ''' Initializes the application, ensures the data directory exists, 
+    ''' and loads the existing story list.
+    ''' </summary>
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadSettings() ' <-- Add this first
 
@@ -21,7 +25,11 @@ Public Class Form1
         End Try
     End Sub
 
-    ' --- LOGGING HELPER ---
+    ''' <summary>
+    ''' Appends system errors to a local text file for diagnostic purposes.
+    ''' </summary>
+    ''' <param name="context">The function or area where the error occurred.</param>
+    ''' <param name="message">The specific exception message.</param>
     Private Sub LogError(context As String, message As String)
         Try
             Dim logMsg As String = $"{DateTime.Now} | {context} | {message}{Environment.NewLine}"
@@ -33,7 +41,6 @@ Public Class Form1
         End Try
     End Sub
 
-    ' --- VALIDATION HELPER ---
     Private Function IsFormValid() As Boolean
         If String.IsNullOrWhiteSpace(txTitle.Text) OrElse
            String.IsNullOrWhiteSpace(txMap.Text) OrElse
@@ -44,26 +51,43 @@ Public Class Form1
         Return True
     End Function
 
-    ' Modified LoadList to accept an optional search filter
-    Private Sub LoadList(Optional filter As String = "")
+    ''' <summary>
+    ''' Updates the story list based on search criteria and completion status.
+    ''' Filters results by title and optionally shows only completed or incomplete stories.
+    ''' </summary>
+    Private Sub LoadList(Optional filter As String = "", Optional showOnlyCompleted As Boolean = False)
         Try
             lstRange.Items.Clear()
             Dim doc = XDocument.Load(filePath)
 
-            ' Fetch titles: filter them if a search term exists, otherwise get all
             Dim stories = From s In doc.Root.Elements("Story")
-                          Where String.IsNullOrEmpty(filter) OrElse
-                                s.Element("Title").Value.ToLower().Contains(filter.ToLower())
-                          Select s.Element("Title").Value
+                          Let title = s.Element("Title").Value
+                          Let completed = s.Element("Completed").Value.ToLower() = "true"
+                          Where (String.IsNullOrEmpty(filter) OrElse title.ToLower().Contains(filter.ToLower())) _
+                      And (Not showOnlyCompleted OrElse completed)
+                          Select title
 
             For Each title In stories
                 lstRange.Items.Add(title)
             Next
+
+            ' Update the Record Count Label
+            lblCount.Text = $"Records found: {lstRange.Items.Count}"
+
         Catch ex As Exception
-            LogError("LoadList Search Error", ex.Message)
+            LogError("LoadList Filter Error", ex.Message)
         End Try
     End Sub
 
+    Private Sub cbShowOnlyCompleted_CheckedChanged(sender As Object, e As EventArgs) Handles cbShowOnlyCompleted.CheckedChanged
+        ' Pass both the current search text and the checkbox state
+        LoadList(txSearch.Text, cbShowOnlyCompleted.Checked)
+    End Sub
+
+    ''' <summary>
+    ''' Validates form input and either creates a new record or updates 
+    ''' an existing one based on the Title field.
+    ''' </summary>
     Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
         If Not IsFormValid() Then Exit Sub
 
@@ -95,6 +119,10 @@ Public Class Form1
         End Try
     End Sub
 
+    ''' <summary>
+    ''' Retrieves and displays the detailed data for a story when its title 
+    ''' is selected in the ListBox.
+    ''' </summary>
     Private Sub lstRange_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lstRange.SelectedIndexChanged
         If lstRange.SelectedItem Is Nothing Then Exit Sub
 
@@ -114,6 +142,9 @@ Public Class Form1
         End Try
     End Sub
 
+    ''' <summary>
+    ''' Removes the selected story from the XML database after user confirmation.
+    ''' </summary>
     Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
         If lstRange.SelectedItem Is Nothing Then
             MessageBox.Show("Select a record to delete.")
@@ -147,8 +178,6 @@ Public Class Form1
         lstRange.ClearSelected()
     End Sub
 
-
-
     Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
         Me.Close()
 
@@ -156,13 +185,14 @@ Public Class Form1
 
     ' Triggers every time you type a letter in the search bar for big lists
     Private Sub txSearch_TextChanged(sender As Object, e As EventArgs) Handles txSearch.TextChanged
-        LoadList(txSearch.Text)
+        LoadList(txSearch.Text, cbShowOnlyCompleted.Checked)
 
     End Sub
 
-
-
-    ' --- SETTINGS LOGIC ---
+    ''' <summary>
+    ''' Captures the current X and Y screen coordinates of the form and 
+    ''' persists them to a separate settings.xml file.
+    ''' </summary>
     Private Sub SaveSettings()
         Try
             ' Save current X and Y coordinates
@@ -180,6 +210,11 @@ Public Class Form1
         End Try
     End Sub
 
+    ''' <summary>
+    ''' Retrieves saved window coordinates from settings.xml and restores the form's 
+    ''' position. Includes a safety check to ensure the coordinates are within 
+    ''' the boundaries of currently active screens.
+    ''' </summary>
     Private Sub LoadSettings()
         Try
             If File.Exists(settingsPath) Then
@@ -214,7 +249,14 @@ Public Class Form1
         SaveSettings()
     End Sub
 
-    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+    Private Sub PictureBox2_Click(sender As Object, e As EventArgs) Handles PictureBox2.Click
+        frmAbout.Show()
+    End Sub
+
+
+#Region "DEVELOPER FEATURE ONLY"
+
+    Private Function SetXmlData()
         Try
             ' Word pools for random generation
             Dim titles() As String = {"Dragon", "Quest", "Shadow", "Kingdom", "Crystal", "Knight", "Lost", "Ancient", "Hero", "Legend"}
@@ -250,9 +292,9 @@ Public Class Form1
         Catch ex As Exception
             LogError("Fill Sample Error", ex.Message)
         End Try
-    End Sub
 
-    Private Sub PictureBox2_Click(sender As Object, e As EventArgs) Handles PictureBox2.Click
-        frmAbout.Show()
-    End Sub
+    End Function
+
+#End Region
+
 End Class

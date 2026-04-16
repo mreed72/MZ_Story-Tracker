@@ -38,4 +38,14 @@
         lblScrollText.Top = pnlContainer.Height
         tmrScroll.Start()
     End Sub
+
+    Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
+        Dim a As String = "https://github.com/mreed72/MZ_Story-Tracker"
+        Diagnostics.Process.Start(a)
+    End Sub
+
+    Private Sub LinkLabel2_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel2.LinkClicked
+        Dim a As String = "https://github.com/mreed72/MZ_Story-Tracker/wiki/Changelog"
+        Diagnostics.Process.Start(a)
+    End Sub
 End Class

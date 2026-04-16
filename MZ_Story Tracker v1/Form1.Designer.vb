@@ -43,8 +43,9 @@ Partial Class Form1
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
         Me.PictureBox2 = New System.Windows.Forms.PictureBox()
-        Me.Button1 = New System.Windows.Forms.Button()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.cbShowOnlyCompleted = New System.Windows.Forms.CheckBox()
+        Me.lblCount = New System.Windows.Forms.Label()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.FlowLayoutPanel1.SuspendLayout()
@@ -244,8 +245,7 @@ Partial Class Form1
         '
         Me.Panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.Panel2.Controls.Add(Me.PictureBox2)
-        Me.Panel2.Controls.Add(Me.Button1)
-        Me.Panel2.Location = New System.Drawing.Point(12, 486)
+        Me.Panel2.Location = New System.Drawing.Point(12, 513)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(290, 39)
         Me.Panel2.TabIndex = 8
@@ -261,15 +261,6 @@ Partial Class Form1
         Me.PictureBox2.TabIndex = 9
         Me.PictureBox2.TabStop = False
         '
-        'Button1
-        '
-        Me.Button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat
-        Me.Button1.Location = New System.Drawing.Point(245, 3)
-        Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(38, 29)
-        Me.Button1.TabIndex = 7
-        Me.Button1.UseVisualStyleBackColor = True
-        '
         'PictureBox1
         '
         Me.PictureBox1.Cursor = System.Windows.Forms.Cursors.Hand
@@ -281,13 +272,35 @@ Partial Class Form1
         Me.PictureBox1.TabIndex = 4
         Me.PictureBox1.TabStop = False
         '
+        'cbShowOnlyCompleted
+        '
+        Me.cbShowOnlyCompleted.AutoSize = True
+        Me.cbShowOnlyCompleted.Location = New System.Drawing.Point(141, 486)
+        Me.cbShowOnlyCompleted.Name = "cbShowOnlyCompleted"
+        Me.cbShowOnlyCompleted.Size = New System.Drawing.Size(162, 22)
+        Me.cbShowOnlyCompleted.TabIndex = 10
+        Me.cbShowOnlyCompleted.Text = "Show only Completed"
+        Me.cbShowOnlyCompleted.UseVisualStyleBackColor = True
+        '
+        'lblCount
+        '
+        Me.lblCount.AutoSize = True
+        Me.lblCount.ForeColor = System.Drawing.SystemColors.Control
+        Me.lblCount.Location = New System.Drawing.Point(11, 483)
+        Me.lblCount.Name = "lblCount"
+        Me.lblCount.Size = New System.Drawing.Size(48, 18)
+        Me.lblCount.TabIndex = 11
+        Me.lblCount.Text = "Label6"
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 17.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Silver
-        Me.ClientSize = New System.Drawing.Size(315, 537)
+        Me.ClientSize = New System.Drawing.Size(315, 576)
         Me.ControlBox = False
+        Me.Controls.Add(Me.lblCount)
+        Me.Controls.Add(Me.cbShowOnlyCompleted)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.txSearch)
@@ -335,7 +348,8 @@ Partial Class Form1
     Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents txSearch As TextBox
     Friend WithEvents Label5 As Label
-    Friend WithEvents Button1 As Button
     Friend WithEvents Panel2 As Panel
     Friend WithEvents PictureBox2 As PictureBox
+    Friend WithEvents cbShowOnlyCompleted As CheckBox
+    Friend WithEvents lblCount As Label
 End Class
