@@ -1,0 +1,258 @@
+﻿Imports System.IO
+Imports System.Xml.Linq
+
+Public Class Form1
+    Private filePath As String = "C:\MZ_Story Tracker\Data\dat.xml"
+    Private logPath As String = "C:\MZ_Story Tracker\Data\errorlog.txt"
+    Private settingsPath As String = "C:\MZ_Story Tracker\settings.xml"
+
+    Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        LoadSettings() ' <-- Add this first
+
+        Try
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath))
+            If Not File.Exists(filePath) Then
+                Dim doc As New XDocument(New XElement("Stories"))
+                doc.Save(filePath)
+            End If
+            LoadList()
+        Catch ex As Exception
+            LogError("Initialization Error", ex.Message)
+        End Try
+    End Sub
+
+    ' --- LOGGING HELPER ---
+    Private Sub LogError(context As String, message As String)
+        Try
+            Dim logMsg As String = $"{DateTime.Now} | {context} | {message}{Environment.NewLine}"
+            File.AppendAllText(logPath, logMsg)
+            MessageBox.Show($"An error occurred ({context}). Check the error log for details.", "System Error", MessageBoxButtons.OK, MessageBoxIcon.Error)
+        Catch
+            ' If logging itself fails, just show a message box
+            MessageBox.Show("Critical failure: Could not write to log file.")
+        End Try
+    End Sub
+
+    ' --- VALIDATION HELPER ---
+    Private Function IsFormValid() As Boolean
+        If String.IsNullOrWhiteSpace(txTitle.Text) OrElse
+           String.IsNullOrWhiteSpace(txMap.Text) OrElse
+           String.IsNullOrWhiteSpace(txEvent.Text) Then
+            MessageBox.Show("Please fill in the Title, Map, and Event fields.", "Missing Data", MessageBoxButtons.OK, MessageBoxIcon.Warning)
+            Return False
+        End If
+        Return True
+    End Function
+
+    ' Modified LoadList to accept an optional search filter
+    Private Sub LoadList(Optional filter As String = "")
+        Try
+            lstRange.Items.Clear()
+            Dim doc = XDocument.Load(filePath)
+
+            ' Fetch titles: filter them if a search term exists, otherwise get all
+            Dim stories = From s In doc.Root.Elements("Story")
+                          Where String.IsNullOrEmpty(filter) OrElse
+                                s.Element("Title").Value.ToLower().Contains(filter.ToLower())
+                          Select s.Element("Title").Value
+
+            For Each title In stories
+                lstRange.Items.Add(title)
+            Next
+        Catch ex As Exception
+            LogError("LoadList Search Error", ex.Message)
+        End Try
+    End Sub
+
+    Private Sub btnSave_Click(sender As Object, e As EventArgs) Handles btnSave.Click
+        If Not IsFormValid() Then Exit Sub
+
+        Try
+            Dim doc = XDocument.Load(filePath)
+            Dim existing = doc.Root.Elements("Story").FirstOrDefault(Function(x) x.Element("Title").Value = txTitle.Text)
+
+            If existing IsNot Nothing Then
+                existing.Element("Map").Value = txMap.Text
+                existing.Element("Event").Value = txEvent.Text
+                existing.Element("Completed").Value = cbCompleted.Checked.ToString()
+                existing.Element("Notes").Value = rtbNotes.Text
+            Else
+                Dim newStory As New XElement("Story",
+                    New XElement("Title", txTitle.Text),
+                    New XElement("Map", txMap.Text),
+                    New XElement("Event", txEvent.Text),
+                    New XElement("Completed", cbCompleted.Checked.ToString()),
+                    New XElement("Notes", rtbNotes.Text)
+                )
+                doc.Root.Add(newStory)
+            End If
+
+            doc.Save(filePath)
+            LoadList()
+            MessageBox.Show("Data Saved Successfully!")
+        Catch ex As Exception
+            LogError("Save Error", ex.Message)
+        End Try
+    End Sub
+
+    Private Sub lstRange_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lstRange.SelectedIndexChanged
+        If lstRange.SelectedItem Is Nothing Then Exit Sub
+
+        Try
+            Dim doc = XDocument.Load(filePath)
+            Dim story = doc.Root.Elements("Story").FirstOrDefault(Function(x) x.Element("Title").Value = lstRange.SelectedItem.ToString())
+
+            If story IsNot Nothing Then
+                txTitle.Text = story.Element("Title").Value
+                txMap.Text = story.Element("Map").Value
+                txEvent.Text = story.Element("Event").Value
+                cbCompleted.Checked = Boolean.Parse(story.Element("Completed").Value)
+                rtbNotes.Text = story.Element("Notes").Value
+            End If
+        Catch ex As Exception
+            LogError("Selection Error", ex.Message)
+        End Try
+    End Sub
+
+    Private Sub btnDelete_Click(sender As Object, e As EventArgs) Handles btnDelete.Click
+        If lstRange.SelectedItem Is Nothing Then
+            MessageBox.Show("Select a record to delete.")
+            Return
+        End If
+
+        Try
+            Dim result = MessageBox.Show("Are you sure you want to delete this?", "Confirm", MessageBoxButtons.YesNo)
+            If result = DialogResult.Yes Then
+                Dim doc = XDocument.Load(filePath)
+                doc.Root.Elements("Story").Where(Function(x) x.Element("Title").Value = lstRange.SelectedItem.ToString()).Remove()
+                doc.Save(filePath)
+                ClearFields()
+                LoadList()
+            End If
+        Catch ex As Exception
+            LogError("Delete Error", ex.Message)
+        End Try
+    End Sub
+
+    Private Sub btnNew_Click(sender As Object, e As EventArgs) Handles btnNew.Click
+        ClearFields()
+    End Sub
+
+    Private Sub ClearFields()
+        txTitle.Clear()
+        txMap.Clear()
+        txEvent.Clear()
+        cbCompleted.Checked = False
+        rtbNotes.Clear()
+        lstRange.ClearSelected()
+    End Sub
+
+
+
+    Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
+        Me.Close()
+
+    End Sub
+
+    ' Triggers every time you type a letter in the search bar for big lists
+    Private Sub txSearch_TextChanged(sender As Object, e As EventArgs) Handles txSearch.TextChanged
+        LoadList(txSearch.Text)
+
+    End Sub
+
+
+
+    ' --- SETTINGS LOGIC ---
+    Private Sub SaveSettings()
+        Try
+            ' Save current X and Y coordinates
+            Dim settings As New XDocument(
+                New XElement("Settings",
+                    New XElement("WindowLocation",
+                        New XElement("X", Me.Location.X),
+                        New XElement("Y", Me.Location.Y)
+                    )
+                )
+            )
+            settings.Save(settingsPath)
+        Catch ex As Exception
+            LogError("Save Settings Error", ex.Message)
+        End Try
+    End Sub
+
+    Private Sub LoadSettings()
+        Try
+            If File.Exists(settingsPath) Then
+                Dim doc = XDocument.Load(settingsPath)
+                Dim x = Integer.Parse(doc.Root.Element("WindowLocation").Element("X").Value)
+                Dim y = Integer.Parse(doc.Root.Element("WindowLocation").Element("Y").Value)
+
+                ' Set the location
+                Dim newPoint As New Point(x, y)
+
+                ' Safety check: Ensure the point is actually on a visible screen
+                Dim isVisible As Boolean = False
+                For Each scr In Screen.AllScreens
+                    If scr.WorkingArea.Contains(newPoint) Then
+                        isVisible = True
+                        Exit For
+                    End If
+                Next
+
+                If isVisible Then
+                    Me.StartPosition = FormStartPosition.Manual
+                    Me.Location = newPoint
+                End If
+            End If
+        Catch ex As Exception
+            ' We don't necessarily need a popup for settings failure, just log it
+            LogError("Load Settings Error", ex.Message)
+        End Try
+    End Sub
+
+    Private Sub Form1_FormClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        SaveSettings()
+    End Sub
+
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        Try
+            ' Word pools for random generation
+            Dim titles() As String = {"Dragon", "Quest", "Shadow", "Kingdom", "Crystal", "Knight", "Lost", "Ancient", "Hero", "Legend"}
+            Dim maps() As String = {"Forest", "Mountain", "Cave", "Castle", "Ocean", "Village"}
+            Dim events() As String = {"Battle", "Discovery", "Meeting", "Escape", "Ritual"}
+            Dim notesPool() As String = {"Found a secret door.", "The party is tired.", "Gained a level.", "Found 100 gold."}
+
+            Dim doc = XDocument.Load(filePath)
+            Dim rnd As New Random()
+
+            For i As Integer = 1 To 30
+                ' Mix random words and append the index 'i' to keep titles unique
+                Dim rTitle As String = titles(rnd.Next(titles.Length)) & " " & titles(rnd.Next(titles.Length)) & " " & i
+                Dim rMap As String = maps(rnd.Next(maps.Length))
+                Dim rEvent As String = events(rnd.Next(events.Length))
+                Dim rCompleted As String = (rnd.Next(0, 2) = 0).ToString()
+                Dim rNotes As String = notesPool(rnd.Next(notesPool.Length))
+
+                Dim newStory As New XElement("Story",
+                    New XElement("Title", rTitle),
+                    New XElement("Map", rMap),
+                    New XElement("Event", rEvent),
+                    New XElement("Completed", rCompleted),
+                    New XElement("Notes", rNotes)
+                )
+                doc.Root.Add(newStory)
+            Next
+
+            doc.Save(filePath)
+            LoadList() ' Refresh the ListBox to show new data
+            MessageBox.Show("30 sample records added!", "Debug Success", MessageBoxButtons.OK, MessageBoxIcon.Information)
+
+        Catch ex As Exception
+            LogError("Fill Sample Error", ex.Message)
+        End Try
+    End Sub
+
+    Private Sub PictureBox2_Click(sender As Object, e As EventArgs) Handles PictureBox2.Click
+        frmAbout.Show()
+    End Sub
+End Class
