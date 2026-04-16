@@ -4,7 +4,6 @@
 
 While specifically designed to complement the workflow of **RPG Maker MZ** (and earlier versions like MV, VX Ace, and XP), MZ Story Tracker is a versatile tool for any game development platform. It provides a centralized hub to bridge the gap between your creative brainstorming and your database—keeping your maps, events, and narrative beats streamlined, organized, and secure.  This program assist you as a game developer with building your story line.  helping to remember parts of your story that need assets, quests or any type of attention that you may need to add later on.  A tracker.
 
-
 ---
 
 ##  Key Features
@@ -23,17 +22,6 @@ While specifically designed to complement the workflow of **RPG Maker MZ** (and 
 3.  Extract the contents to a folder on your computer.
 4.  Run `MZ_StoryTracker.exe`.
     *   *Note: On first run, the app will automatically create its data directory at `C:\MZ_Story Tracker\`.*
-
-##  How to Use
-Basically, this program assist you as a game developer with building your story line.  helping to remember
-parts of your story that need assets, quests or any type of attention that you may need to add later on.  A
-bonifide note tracker.
-
-
-## 📁 File Structure
-*   `C:\MZ_Story Tracker\Data\dat.xml`: The primary database for all story records.
-*   `C:\MZ_Story Tracker\settings.xml`: Stores personalized application configurations and window location.
-*   `C:\MZ_Story Tracker\Data\errorlog.txt`: Automatically generated logs for troubleshooting.
 
 ---
 
