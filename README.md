@@ -2,7 +2,7 @@
 
 **A specialized narrative management solution optimized for RPG Maker MZ and legacy engines.**
 
-While specifically designed to complement the workflow of **RPG Maker MZ** (and earlier versions like MV, VX Ace, and XP), MZ Story Tracker is a versatile tool for any game development platform. It provides a centralized hub to bridge the gap between your creative brainstorming and your database—keeping your maps, events, and narrative beats streamlined, organized, and secure.
+While specifically designed to complement the workflow of **RPG Maker MZ** (and earlier versions like MV, VX Ace, and XP), MZ Story Tracker is a versatile tool for any game development platform. It provides a centralized hub to bridge the gap between your creative brainstorming and your database—keeping your maps, events, and narrative beats streamlined, organized, and secure.  This program assist you as a game developer with building your story line.  helping to remember parts of your story that need assets, quests or any type of attention that you may need to add later on.  A tracker.
 
 
 ---
@@ -15,11 +15,6 @@ While specifically designed to complement the workflow of **RPG Maker MZ** (and 
 *   **Robust Error Logging**: Integrated diagnostic systems automatically track irregularities, ensuring maximum reliability for your critical data.
 *   **Modular Design**: Stores all mission-critical assets in a dedicated local directory for effortless backup and migration.
 
-##  Built With
-
-*   **Language**: Visual Basic .NET
-*   **Data Storage**: XML (LINQ to XML)
-*   **Platform**: Windows Forms (.NET Framework)
 
 ##  Installation & Setup
 
@@ -30,11 +25,10 @@ While specifically designed to complement the workflow of **RPG Maker MZ** (and 
     *   *Note: On first run, the app will automatically create its data directory at `C:\MZ_Story Tracker\`.*
 
 ##  How to Use
+Basically, this program assist you as a game developer with building your story line.  helping to remember
+parts of your story that need assets, quests or any type of attention that you may need to add later on.  A
+bonifide note tracker.
 
-1.  **Adding Records**: Enter your story title, map location, and event details. Use the "Notes" section for deeper context and click **Save**.
-2.  **Searching**: Use the search bar above the list box to filter your stories in real-time as you type.
-3.  **Managing Data**: Click any item in the list to load its data into the form. You can then update the details and click **Save** or use **Delete** to remove the record.
-4.  **Testing**: Use the temporary **Fill Sample** button to quickly generate 30 records to test the scrolling and search features.
 
 ## 📁 File Structure
 *   `C:\MZ_Story Tracker\Data\dat.xml`: The primary database for all story records.
