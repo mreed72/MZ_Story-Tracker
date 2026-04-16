@@ -48,4 +48,4 @@ This project is open-source. See the `LICENSE` file for more information.
 
 ## 👤 Author
 **Marcus Reed**
-*Transforming narrative chaos into organized legends.*
+*A society grows great when old men plant trees the shade of which they know they will never sit in.*
