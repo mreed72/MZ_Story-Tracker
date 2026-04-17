@@ -1,5 +1,7 @@
 #  MZ Story Tracker v1.2
 
+[Download Latest Release](https://github.com/mreed72/MZ_Story-Tracker/releases/latest)
+
 **A specialized narrative management solution optimized for RPG Maker MZ and legacy engines.**
 
 While specifically designed to complement the workflow of **RPG Maker MZ** (and earlier versions like MV, VX Ace, and XP), MZ Story Tracker is a versatile tool for any game development platform. It provides a centralized hub to bridge the gap between your creative brainstorming and your database—keeping your maps, events, and narrative beats streamlined, organized, and secure.  This program assist you as a game developer with building your story line.  helping to remember parts of your story that need assets, quests or any type of attention that you may need to add later on.  A tracker.
