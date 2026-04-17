@@ -16,6 +16,7 @@ Public Class Form1
 
         Dim x As String = My.Application.Info.Version.ToString
         Me.Text = "MZ_Story Tracker v" & x
+        statusLabel.Visible = False
 
         Try
             Directory.CreateDirectory(Path.GetDirectoryName(filePath))
@@ -160,7 +161,14 @@ Public Class Form1
 
             doc.Save(filePath)
             LoadList()
-            MessageBox.Show("Data Saved Successfully!")
+
+            ' --- NEW LOGIC STARTS HERE ---
+            ClearFields()      ' Resets the textboxes and checkboxes
+            txTitle.Focus()    ' Sets the cursor back to the Title box
+            ' -----------------------------
+            statusLabel.Visible = True
+            statusLabel.Text = "Event's Saved !!!"
+
         Catch ex As Exception
             LogError("Save Error", ex.Message)
         End Try
@@ -214,6 +222,8 @@ Public Class Form1
 
     Private Sub btnNew_Click(sender As Object, e As EventArgs) Handles btnNew.Click
         ClearFields()
+        statusLabel.Visible = False
+
     End Sub
 
     Private Sub ClearFields()
@@ -223,6 +233,7 @@ Public Class Form1
         cbCompleted.Checked = False
         rtbNotes.Clear()
         lstRange.ClearSelected()
+        txTitle.Focus()
     End Sub
 
     ' Triggers every time you type a letter in the search bar for big lists

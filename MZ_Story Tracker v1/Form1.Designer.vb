@@ -49,6 +49,7 @@ Partial Class Form1
         Me.PictureBox2 = New System.Windows.Forms.PictureBox()
         Me.lblCount = New System.Windows.Forms.Label()
         Me.Button2 = New System.Windows.Forms.Button()
+        Me.statusLabel = New System.Windows.Forms.Label()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.FlowLayoutPanel1.SuspendLayout()
@@ -331,6 +332,18 @@ Partial Class Form1
         Me.Button2.Text = "EXIT"
         Me.Button2.UseVisualStyleBackColor = False
         '
+        'statusLabel
+        '
+        Me.statusLabel.AutoSize = True
+        Me.statusLabel.BackColor = System.Drawing.Color.Silver
+        Me.statusLabel.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.statusLabel.ForeColor = System.Drawing.Color.Yellow
+        Me.statusLabel.Location = New System.Drawing.Point(15, 235)
+        Me.statusLabel.Name = "statusLabel"
+        Me.statusLabel.Size = New System.Drawing.Size(35, 13)
+        Me.statusLabel.TabIndex = 13
+        Me.statusLabel.Text = "status"
+        '
         'Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
@@ -338,6 +351,7 @@ Partial Class Form1
         Me.BackColor = System.Drawing.Color.Silver
         Me.ClientSize = New System.Drawing.Size(315, 648)
         Me.ControlBox = False
+        Me.Controls.Add(Me.statusLabel)
         Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.lblCount)
         Me.Controls.Add(Me.Panel2)
@@ -392,4 +406,5 @@ Partial Class Form1
     Friend WithEvents Label6 As Label
     Friend WithEvents cmbMapFilter As ComboBox
     Friend WithEvents Button2 As Button
+    Friend WithEvents statusLabel As Label
 End Class
