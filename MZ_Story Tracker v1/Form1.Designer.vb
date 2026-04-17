@@ -32,6 +32,9 @@ Partial Class Form1
         Me.txEvent = New System.Windows.Forms.TextBox()
         Me.cbCompleted = New System.Windows.Forms.CheckBox()
         Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.cmbMapFilter = New System.Windows.Forms.ComboBox()
+        Me.cbShowOnlyCompleted = New System.Windows.Forms.CheckBox()
         Me.Panel1 = New System.Windows.Forms.Panel()
         Me.rtbNotes = New System.Windows.Forms.RichTextBox()
         Me.lstRange = New System.Windows.Forms.ListBox()
@@ -42,16 +45,15 @@ Partial Class Form1
         Me.txSearch = New System.Windows.Forms.TextBox()
         Me.Label5 = New System.Windows.Forms.Label()
         Me.Panel2 = New System.Windows.Forms.Panel()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.PictureBox2 = New System.Windows.Forms.PictureBox()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
-        Me.cbShowOnlyCompleted = New System.Windows.Forms.CheckBox()
         Me.lblCount = New System.Windows.Forms.Label()
+        Me.Button2 = New System.Windows.Forms.Button()
         Me.TableLayoutPanel1.SuspendLayout()
         Me.Panel1.SuspendLayout()
         Me.FlowLayoutPanel1.SuspendLayout()
         Me.Panel2.SuspendLayout()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).BeginInit()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'TableLayoutPanel1
@@ -68,23 +70,28 @@ Partial Class Form1
         Me.TableLayoutPanel1.Controls.Add(Me.txEvent, 1, 2)
         Me.TableLayoutPanel1.Controls.Add(Me.cbCompleted, 0, 3)
         Me.TableLayoutPanel1.Controls.Add(Me.Label4, 1, 3)
-        Me.TableLayoutPanel1.Location = New System.Drawing.Point(12, 12)
+        Me.TableLayoutPanel1.Controls.Add(Me.Label6, 0, 4)
+        Me.TableLayoutPanel1.Controls.Add(Me.cmbMapFilter, 1, 4)
+        Me.TableLayoutPanel1.Controls.Add(Me.cbShowOnlyCompleted, 1, 5)
+        Me.TableLayoutPanel1.Location = New System.Drawing.Point(12, 46)
         Me.TableLayoutPanel1.Name = "TableLayoutPanel1"
-        Me.TableLayoutPanel1.RowCount = 4
+        Me.TableLayoutPanel1.RowCount = 6
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.666!))
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.666!))
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.666!))
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.666!))
+        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66933!))
         Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667!))
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667!))
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667!))
-        Me.TableLayoutPanel1.RowStyles.Add(New System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 16.66667!))
-        Me.TableLayoutPanel1.Size = New System.Drawing.Size(290, 125)
+        Me.TableLayoutPanel1.Size = New System.Drawing.Size(290, 183)
         Me.TableLayoutPanel1.TabIndex = 0
         '
         'Label1
         '
         Me.Label1.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(17, 7)
+        Me.Label1.Location = New System.Drawing.Point(14, 7)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(55, 18)
+        Me.Label1.Size = New System.Drawing.Size(58, 17)
         Me.Label1.TabIndex = 0
         Me.Label1.Text = "(*) Title:"
         '
@@ -93,16 +100,16 @@ Partial Class Form1
         Me.txTitle.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.txTitle.Location = New System.Drawing.Point(80, 5)
         Me.txTitle.Name = "txTitle"
-        Me.txTitle.Size = New System.Drawing.Size(196, 24)
+        Me.txTitle.Size = New System.Drawing.Size(196, 23)
         Me.txTitle.TabIndex = 1
         '
         'Label2
         '
         Me.Label2.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label2.AutoSize = True
-        Me.Label2.Location = New System.Drawing.Point(34, 37)
+        Me.Label2.Location = New System.Drawing.Point(33, 37)
         Me.Label2.Name = "Label2"
-        Me.Label2.Size = New System.Drawing.Size(38, 18)
+        Me.Label2.Size = New System.Drawing.Size(39, 17)
         Me.Label2.TabIndex = 2
         Me.Label2.Text = "Map:"
         '
@@ -111,16 +118,16 @@ Partial Class Form1
         Me.txMap.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.txMap.Location = New System.Drawing.Point(80, 35)
         Me.txMap.Name = "txMap"
-        Me.txMap.Size = New System.Drawing.Size(196, 24)
+        Me.txMap.Size = New System.Drawing.Size(196, 23)
         Me.txMap.TabIndex = 3
         '
         'Label3
         '
         Me.Label3.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(26, 67)
+        Me.Label3.Location = New System.Drawing.Point(24, 67)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(46, 18)
+        Me.Label3.Size = New System.Drawing.Size(48, 17)
         Me.Label3.TabIndex = 4
         Me.Label3.Text = "Event:"
         '
@@ -129,14 +136,14 @@ Partial Class Form1
         Me.txEvent.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.txEvent.Location = New System.Drawing.Point(80, 65)
         Me.txEvent.Name = "txEvent"
-        Me.txEvent.Size = New System.Drawing.Size(196, 24)
+        Me.txEvent.Size = New System.Drawing.Size(196, 23)
         Me.txEvent.TabIndex = 5
         '
         'cbCompleted
         '
         Me.cbCompleted.Anchor = System.Windows.Forms.AnchorStyles.Right
         Me.cbCompleted.AutoSize = True
-        Me.cbCompleted.Location = New System.Drawing.Point(57, 100)
+        Me.cbCompleted.Location = New System.Drawing.Point(57, 99)
         Me.cbCompleted.Name = "cbCompleted"
         Me.cbCompleted.Size = New System.Drawing.Size(15, 14)
         Me.cbCompleted.TabIndex = 6
@@ -146,17 +153,46 @@ Partial Class Form1
         '
         Me.Label4.Anchor = System.Windows.Forms.AnchorStyles.Left
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(80, 98)
+        Me.Label4.Location = New System.Drawing.Point(80, 97)
         Me.Label4.Name = "Label4"
-        Me.Label4.Size = New System.Drawing.Size(77, 18)
+        Me.Label4.Size = New System.Drawing.Size(75, 17)
         Me.Label4.TabIndex = 7
         Me.Label4.Text = "Completed"
+        '
+        'Label6
+        '
+        Me.Label6.Anchor = System.Windows.Forms.AnchorStyles.Right
+        Me.Label6.AutoSize = True
+        Me.Label6.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label6.Location = New System.Drawing.Point(19, 129)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(53, 13)
+        Me.Label6.TabIndex = 8
+        Me.Label6.Text = "Map Filter"
+        '
+        'cmbMapFilter
+        '
+        Me.cmbMapFilter.FormattingEnabled = True
+        Me.cmbMapFilter.Location = New System.Drawing.Point(80, 125)
+        Me.cmbMapFilter.Name = "cmbMapFilter"
+        Me.cmbMapFilter.Size = New System.Drawing.Size(196, 24)
+        Me.cmbMapFilter.TabIndex = 9
+        '
+        'cbShowOnlyCompleted
+        '
+        Me.cbShowOnlyCompleted.AutoSize = True
+        Me.cbShowOnlyCompleted.Location = New System.Drawing.Point(80, 155)
+        Me.cbShowOnlyCompleted.Name = "cbShowOnlyCompleted"
+        Me.cbShowOnlyCompleted.Size = New System.Drawing.Size(162, 21)
+        Me.cbShowOnlyCompleted.TabIndex = 10
+        Me.cbShowOnlyCompleted.Text = "Show only Completed"
+        Me.cbShowOnlyCompleted.UseVisualStyleBackColor = True
         '
         'Panel1
         '
         Me.Panel1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
         Me.Panel1.Controls.Add(Me.rtbNotes)
-        Me.Panel1.Location = New System.Drawing.Point(12, 143)
+        Me.Panel1.Location = New System.Drawing.Point(12, 253)
         Me.Panel1.Name = "Panel1"
         Me.Panel1.Size = New System.Drawing.Size(290, 157)
         Me.Panel1.TabIndex = 1
@@ -174,10 +210,10 @@ Partial Class Form1
         'lstRange
         '
         Me.lstRange.FormattingEnabled = True
-        Me.lstRange.ItemHeight = 17
-        Me.lstRange.Location = New System.Drawing.Point(12, 306)
+        Me.lstRange.ItemHeight = 16
+        Me.lstRange.Location = New System.Drawing.Point(12, 416)
         Me.lstRange.Name = "lstRange"
-        Me.lstRange.Size = New System.Drawing.Size(146, 174)
+        Me.lstRange.Size = New System.Drawing.Size(146, 164)
         Me.lstRange.TabIndex = 2
         '
         'FlowLayoutPanel1
@@ -187,7 +223,7 @@ Partial Class Form1
         Me.FlowLayoutPanel1.Controls.Add(Me.btnNew)
         Me.FlowLayoutPanel1.Controls.Add(Me.btnDelete)
         Me.FlowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown
-        Me.FlowLayoutPanel1.Location = New System.Drawing.Point(183, 306)
+        Me.FlowLayoutPanel1.Location = New System.Drawing.Point(198, 416)
         Me.FlowLayoutPanel1.Name = "FlowLayoutPanel1"
         Me.FlowLayoutPanel1.Size = New System.Drawing.Size(105, 124)
         Me.FlowLayoutPanel1.TabIndex = 3
@@ -227,28 +263,40 @@ Partial Class Form1
         '
         'txSearch
         '
-        Me.txSearch.Location = New System.Drawing.Point(164, 456)
+        Me.txSearch.Location = New System.Drawing.Point(212, 546)
         Me.txSearch.Name = "txSearch"
-        Me.txSearch.Size = New System.Drawing.Size(91, 24)
+        Me.txSearch.Size = New System.Drawing.Size(91, 23)
         Me.txSearch.TabIndex = 5
         '
         'Label5
         '
         Me.Label5.AutoSize = True
-        Me.Label5.Location = New System.Drawing.Point(161, 435)
+        Me.Label5.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Label5.Location = New System.Drawing.Point(164, 551)
         Me.Label5.Name = "Label5"
-        Me.Label5.Size = New System.Drawing.Size(54, 18)
+        Me.Label5.Size = New System.Drawing.Size(44, 13)
         Me.Label5.TabIndex = 6
         Me.Label5.Text = "Search:"
         '
         'Panel2
         '
         Me.Panel2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D
+        Me.Panel2.Controls.Add(Me.Button1)
         Me.Panel2.Controls.Add(Me.PictureBox2)
-        Me.Panel2.Location = New System.Drawing.Point(12, 513)
+        Me.Panel2.Location = New System.Drawing.Point(12, 599)
         Me.Panel2.Name = "Panel2"
         Me.Panel2.Size = New System.Drawing.Size(290, 39)
         Me.Panel2.TabIndex = 8
+        '
+        'Button1
+        '
+        Me.Button1.Enabled = False
+        Me.Button1.Location = New System.Drawing.Point(258, 4)
+        Me.Button1.Name = "Button1"
+        Me.Button1.Size = New System.Drawing.Size(25, 23)
+        Me.Button1.TabIndex = 12
+        Me.Button1.UseVisualStyleBackColor = True
+        Me.Button1.Visible = False
         '
         'PictureBox2
         '
@@ -261,55 +309,46 @@ Partial Class Form1
         Me.PictureBox2.TabIndex = 9
         Me.PictureBox2.TabStop = False
         '
-        'PictureBox1
-        '
-        Me.PictureBox1.Cursor = System.Windows.Forms.Cursors.Hand
-        Me.PictureBox1.Image = Global.MZ_Story_Tracker_v1.My.Resources.Resources.OTH411
-        Me.PictureBox1.Location = New System.Drawing.Point(272, 460)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(16, 16)
-        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize
-        Me.PictureBox1.TabIndex = 4
-        Me.PictureBox1.TabStop = False
-        '
-        'cbShowOnlyCompleted
-        '
-        Me.cbShowOnlyCompleted.AutoSize = True
-        Me.cbShowOnlyCompleted.Location = New System.Drawing.Point(141, 486)
-        Me.cbShowOnlyCompleted.Name = "cbShowOnlyCompleted"
-        Me.cbShowOnlyCompleted.Size = New System.Drawing.Size(162, 22)
-        Me.cbShowOnlyCompleted.TabIndex = 10
-        Me.cbShowOnlyCompleted.Text = "Show only Completed"
-        Me.cbShowOnlyCompleted.UseVisualStyleBackColor = True
-        '
         'lblCount
         '
         Me.lblCount.AutoSize = True
-        Me.lblCount.ForeColor = System.Drawing.SystemColors.Control
-        Me.lblCount.Location = New System.Drawing.Point(11, 483)
+        Me.lblCount.Font = New System.Drawing.Font("Microsoft Sans Serif", 8.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.lblCount.ForeColor = System.Drawing.SystemColors.ActiveCaptionText
+        Me.lblCount.Location = New System.Drawing.Point(11, 583)
         Me.lblCount.Name = "lblCount"
-        Me.lblCount.Size = New System.Drawing.Size(48, 18)
+        Me.lblCount.Size = New System.Drawing.Size(39, 13)
         Me.lblCount.TabIndex = 11
         Me.lblCount.Text = "Label6"
         '
+        'Button2
+        '
+        Me.Button2.BackColor = System.Drawing.Color.IndianRed
+        Me.Button2.FlatStyle = System.Windows.Forms.FlatStyle.Popup
+        Me.Button2.Font = New System.Drawing.Font("Microsoft Sans Serif", 9.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Button2.Location = New System.Drawing.Point(228, 12)
+        Me.Button2.Name = "Button2"
+        Me.Button2.Size = New System.Drawing.Size(75, 23)
+        Me.Button2.TabIndex = 12
+        Me.Button2.Text = "EXIT"
+        Me.Button2.UseVisualStyleBackColor = False
+        '
         'Form1
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 17.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Silver
-        Me.ClientSize = New System.Drawing.Size(315, 576)
+        Me.ClientSize = New System.Drawing.Size(315, 648)
         Me.ControlBox = False
+        Me.Controls.Add(Me.Button2)
         Me.Controls.Add(Me.lblCount)
-        Me.Controls.Add(Me.cbShowOnlyCompleted)
         Me.Controls.Add(Me.Panel2)
         Me.Controls.Add(Me.Label5)
         Me.Controls.Add(Me.txSearch)
-        Me.Controls.Add(Me.PictureBox1)
         Me.Controls.Add(Me.FlowLayoutPanel1)
         Me.Controls.Add(Me.lstRange)
         Me.Controls.Add(Me.Panel1)
         Me.Controls.Add(Me.TableLayoutPanel1)
-        Me.Font = New System.Drawing.Font("Aptos", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
+        Me.Font = New System.Drawing.Font("Microsoft Sans Serif", 10.0!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(0, Byte))
         Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Margin = New System.Windows.Forms.Padding(4)
@@ -323,7 +362,6 @@ Partial Class Form1
         Me.Panel2.ResumeLayout(False)
         Me.Panel2.PerformLayout()
         CType(Me.PictureBox2, System.ComponentModel.ISupportInitialize).EndInit()
-        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -345,11 +383,14 @@ Partial Class Form1
     Friend WithEvents btnSave As Button
     Friend WithEvents btnNew As Button
     Friend WithEvents btnDelete As Button
-    Friend WithEvents PictureBox1 As PictureBox
     Friend WithEvents txSearch As TextBox
     Friend WithEvents Label5 As Label
     Friend WithEvents Panel2 As Panel
     Friend WithEvents PictureBox2 As PictureBox
     Friend WithEvents cbShowOnlyCompleted As CheckBox
     Friend WithEvents lblCount As Label
+    Friend WithEvents Button1 As Button
+    Friend WithEvents Label6 As Label
+    Friend WithEvents cmbMapFilter As ComboBox
+    Friend WithEvents Button2 As Button
 End Class

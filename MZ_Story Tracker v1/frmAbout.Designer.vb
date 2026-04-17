@@ -107,7 +107,7 @@ Partial Class frmAbout
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.Name = "frmAbout"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "frmAbout"
+        Me.Text = "About"
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.pnlContainer.ResumeLayout(False)
         Me.pnlContainer.PerformLayout()

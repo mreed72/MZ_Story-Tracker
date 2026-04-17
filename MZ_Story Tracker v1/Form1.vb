@@ -12,6 +12,10 @@ Public Class Form1
     ''' </summary>
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         LoadSettings() ' <-- Add this first
+        RefreshMapDropdown()
+
+        Dim x As String = My.Application.Info.Version.ToString
+        Me.Text = "MZ_Story Tracker v" & x
 
         Try
             Directory.CreateDirectory(Path.GetDirectoryName(filePath))
@@ -55,28 +59,59 @@ Public Class Form1
     ''' Updates the story list based on search criteria and completion status.
     ''' Filters results by title and optionally shows only completed or incomplete stories.
     ''' </summary>
-    Private Sub LoadList(Optional filter As String = "", Optional showOnlyCompleted As Boolean = False)
+    Private Sub LoadList(Optional titleFilter As String = "",
+                     Optional showOnlyCompleted As Boolean = False,
+                     Optional mapFilter As String = "All")
         Try
             lstRange.Items.Clear()
             Dim doc = XDocument.Load(filePath)
 
             Dim stories = From s In doc.Root.Elements("Story")
                           Let title = s.Element("Title").Value
+                          Let mapName = s.Element("Map").Value
                           Let completed = s.Element("Completed").Value.ToLower() = "true"
-                          Where (String.IsNullOrEmpty(filter) OrElse title.ToLower().Contains(filter.ToLower())) _
-                      And (Not showOnlyCompleted OrElse completed)
+                          Where (String.IsNullOrEmpty(titleFilter) OrElse title.ToLower().Contains(titleFilter.ToLower())) _
+                      And (Not showOnlyCompleted OrElse completed) _
+                      And (mapFilter = "All" OrElse mapName = mapFilter)
                           Select title
 
             For Each title In stories
                 lstRange.Items.Add(title)
             Next
 
-            ' Update the Record Count Label
             lblCount.Text = $"Records found: {lstRange.Items.Count}"
-
         Catch ex As Exception
             LogError("LoadList Filter Error", ex.Message)
         End Try
+    End Sub
+
+    Private Sub RefreshMapDropdown()
+        Try
+            Dim doc = XDocument.Load(filePath)
+            ' Get unique map names and sort them alphabetically
+            Dim uniqueMaps = (From s In doc.Root.Elements("Story")
+                              Select s.Element("Map").Value).Distinct().OrderBy(Function(m) m).ToList()
+
+            ' Temporarily stop events so it doesn't trigger a list reload while we fill it
+            RemoveHandler cmbMapFilter.SelectedIndexChanged, AddressOf cmbMapFilter_SelectedIndexChanged
+
+            cmbMapFilter.Items.Clear()
+            cmbMapFilter.Items.Add("All") ' Add default option
+
+            For Each m In uniqueMaps
+                cmbMapFilter.Items.Add(m)
+            Next
+
+            cmbMapFilter.SelectedIndex = 0 ' Default to "All"
+
+            AddHandler cmbMapFilter.SelectedIndexChanged, AddressOf cmbMapFilter_SelectedIndexChanged
+        Catch ex As Exception
+            LogError("Map Dropdown Error", ex.Message)
+        End Try
+    End Sub
+
+    Private Sub cmbMapFilter_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbMapFilter.SelectedIndexChanged
+        LoadList(txSearch.Text, cbShowOnlyCompleted.Checked, cmbMapFilter.SelectedItem.ToString())
     End Sub
 
     Private Sub cbShowOnlyCompleted_CheckedChanged(sender As Object, e As EventArgs) Handles cbShowOnlyCompleted.CheckedChanged
@@ -178,11 +213,6 @@ Public Class Form1
         lstRange.ClearSelected()
     End Sub
 
-    Private Sub PictureBox1_Click(sender As Object, e As EventArgs) Handles PictureBox1.Click
-        Me.Close()
-
-    End Sub
-
     ' Triggers every time you type a letter in the search bar for big lists
     Private Sub txSearch_TextChanged(sender As Object, e As EventArgs) Handles txSearch.TextChanged
         LoadList(txSearch.Text, cbShowOnlyCompleted.Checked)
@@ -253,6 +283,15 @@ Public Class Form1
         frmAbout.Show()
     End Sub
 
+    Private Sub Button1_Click(sender As Object, e As EventArgs) Handles Button1.Click
+        SetXmlData()
+
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        Me.Close()
+
+    End Sub
 
 #Region "DEVELOPER FEATURE ONLY"
 
@@ -296,5 +335,8 @@ Public Class Form1
     End Function
 
 #End Region
+
+
+
 
 End Class
