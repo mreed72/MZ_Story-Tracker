@@ -1,4 +1,6 @@
 <Solution>
   <Project Path="MZ_Story Tracker v1/MZ_Story Tracker v1.vbproj" Id="3c6f3e88-7d99-460a-8c1a-949c1b80d27e" />
-  <Project Path="Setup_Project/Setup_Project.vdproj" Type="Installer" />
+  <Project Path="Setup_Project/Setup_Project.vdproj" Type="Installer">
+    <Build />
+  </Project>
 </Solution>

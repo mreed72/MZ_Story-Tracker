@@ -87,23 +87,32 @@ Public Class Form1
 
     Private Sub RefreshMapDropdown()
         Try
+            ' 1. Check if file exists first to avoid crash on very first load
+            If Not File.Exists(filePath) Then Exit Sub
+
             Dim doc = XDocument.Load(filePath)
-            ' Get unique map names and sort them alphabetically
+
+            ' 2. Get unique map names
             Dim uniqueMaps = (From s In doc.Root.Elements("Story")
+                              Where s.Element("Map") IsNot Nothing
                               Select s.Element("Map").Value).Distinct().OrderBy(Function(m) m).ToList()
 
-            ' Temporarily stop events so it doesn't trigger a list reload while we fill it
+            ' 3. Detach handler to prevent recursive/premature calls to LoadList
             RemoveHandler cmbMapFilter.SelectedIndexChanged, AddressOf cmbMapFilter_SelectedIndexChanged
 
             cmbMapFilter.Items.Clear()
-            cmbMapFilter.Items.Add("All") ' Add default option
+            cmbMapFilter.Items.Add("All")
 
             For Each m In uniqueMaps
                 cmbMapFilter.Items.Add(m)
             Next
 
-            cmbMapFilter.SelectedIndex = 0 ' Default to "All"
+            ' 4. Ensure there is at least "All" before setting index
+            If cmbMapFilter.Items.Count > 0 Then
+                cmbMapFilter.SelectedIndex = 0
+            End If
 
+            ' 5. Re-attach handler
             AddHandler cmbMapFilter.SelectedIndexChanged, AddressOf cmbMapFilter_SelectedIndexChanged
         Catch ex As Exception
             LogError("Map Dropdown Error", ex.Message)
@@ -111,6 +120,9 @@ Public Class Form1
     End Sub
 
     Private Sub cmbMapFilter_SelectedIndexChanged(sender As Object, e As EventArgs) Handles cmbMapFilter.SelectedIndexChanged
+        ' Safety Check: If nothing is selected (or list is empty), don't try to filter
+        If cmbMapFilter.SelectedItem Is Nothing Then Exit Sub
+
         LoadList(txSearch.Text, cbShowOnlyCompleted.Checked, cmbMapFilter.SelectedItem.ToString())
     End Sub
 
@@ -299,8 +311,18 @@ Public Class Form1
         Try
             ' Word pools for random generation
             Dim titles() As String = {"Dragon", "Quest", "Shadow", "Kingdom", "Crystal", "Knight", "Lost", "Ancient", "Hero", "Legend"}
-            Dim maps() As String = {"Forest", "Mountain", "Cave", "Castle", "Ocean", "Village"}
-            Dim events() As String = {"Battle", "Discovery", "Meeting", "Escape", "Ritual"}
+            Dim maps() As String = {
+    "MAP001", "MAP002", "MAP003", "MAP004", "MAP005",
+    "MAP006", "MAP007", "MAP008", "MAP009", "MAP010",
+    "MAP011", "MAP012", "MAP013", "MAP014", "MAP015"
+}
+            Dim events() As String = {
+    "001", "002", "003", "004", "005", "006", "007", "008", "009", "010",
+    "011", "012", "013", "014", "015", "016", "017", "018", "019", "020",
+    "021", "022", "023", "024", "025", "026", "027", "028", "029", "030",
+    "031", "032", "033", "034", "035", "036", "037", "038", "039", "040",
+    "041", "042", "043", "044", "045", "046", "047", "048", "049", "050"
+}
             Dim notesPool() As String = {"Found a secret door.", "The party is tired.", "Gained a level.", "Found 100 gold."}
 
             Dim doc = XDocument.Load(filePath)
